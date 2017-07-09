@@ -1,4 +1,4 @@
-# cookiejs v0.2.0
+# cookiejs v0.2.1
 
 > Set, get and remove cookies.
 
@@ -26,11 +26,11 @@ cookiejs.set(
     'captainObvious', 
     'Thank you Captain Obvious, you just saved my life.',
     {
-        domain: '.eric-zieger.de'                   // default: '.domain.tld',
-        path: '/the-adventures-of-captain-obvious/' // default: '/',
-        expires: sYourUTCString                     // default: undefined (session cookie)
-        max-age: 60 // max-age-in-seconds           // default: undefined
-        secure: true                                // default: undefined
+        domain: '.eric-zieger.de',                   // default: '.domain.tld',
+        path: '/the-adventures-of-captain-obvious/', // default: '/',
+        expires: sYourUTCString,                     // default: undefined (session cookie)
+        max-age: 60 // max-age-in-seconds,           // default: undefined
+        secure: true                                 // default: undefined
     }
 )
 ```
@@ -59,7 +59,7 @@ Else the cookie will not get removed.
 cookiejs.remove(
     'captainObvious',
     {
-        domain: '.eric-zieger.de'
+        domain: '.eric-zieger.de',
         path: '/the-adventures-of-captain-obvious/'
     }
 );
