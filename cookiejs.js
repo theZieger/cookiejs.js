@@ -1,7 +1,15 @@
 /**
  * cookiejs object for setting/getting/removing cookies
  */
-var cookiejs = (function(undefined) {
+ (function(root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define(["cookiejs"], factory);
+    } else if (typeof module === "object" && module.exports) {
+        module.exports = factory();
+    } else {
+        root.cookiejs = factory();
+    }
+}(this, function(undefined) {
 
     /**
      * @type {Object}
@@ -94,4 +102,4 @@ var cookiejs = (function(undefined) {
     };
 
     return cookiejs;
-}());
+}));
