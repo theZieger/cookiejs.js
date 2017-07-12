@@ -1,4 +1,4 @@
-# cookiejs v0.3.0
+# cookiejs v0.4.0
 
 > Set, get and remove cookies.
 
