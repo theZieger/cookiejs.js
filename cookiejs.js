@@ -17,17 +17,6 @@
     var cookiejs = {};
 
     /**
-     * gets the current document.domain and returns .DOMAIN.TLD to make cookie accessable over all subdomains
-     * 
-     * @private
-     * 
-     * @returns {String}    representation of ".DOMAIN.TLD" of document.domain
-     */
-    var getCookieDomain = function() {
-        return '.' + document.domain.split('.').slice(-2).join('.');
-    };
-
-    /**
      * sets or overwrites a cookie
      * 
      * @param {String} sCookieName - the name of the cookie you want to set
@@ -39,24 +28,17 @@
     cookiejs.set = function(sCookieName, sValue, oAttributes) {
         var sAttributes = '';
 
-        oAttributes = oAttributes || {
-            domain: '; domain=' + getCookieDomain(),
-            path: '; path=/'
-        };
+        oAttributes = oAttributes || {};
 
-        if (oAttributes['domain'] === undefined) {
-            sAttributes += '; domain=' + getCookieDomain();
-        }
-
-        if (oAttributes['path'] === undefined) {
+        if (typeof oAttributes.path !== 'string') {
             sAttributes += '; path=/';
         }
 
         Object.keys(oAttributes).forEach(function(sAttributeName) {
             sAttributes += ';' + sAttributeName + '=' + oAttributes[sAttributeName];
-        });
+        });    
 
-        document.cookie = sCookieName + '=' + sValue + sAttributes;
+        document.cookie = encodeURIComponent(sCookieName) + '=' + encodeURIComponent(sValue) + sAttributes;
     };
 
     /**
@@ -79,8 +61,8 @@
 
         for (var i = aCookies.length - 1; i >= 0; i--) {
             aCookie = aCookies[i].split('=');
-            if (aCookie[0] === sCookieName) {
-                gCookieValue = aCookie[1];
+            if (decodeURIComponent(aCookie[0]) === sCookieName) {
+                gCookieValue = decodeURIComponent(aCookie[1]);
             }
         }
         

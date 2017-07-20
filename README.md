@@ -1,4 +1,4 @@
-# cookiejs v0.4.0
+# cookiejs v0.4.1
 
 > Set, get and remove cookies.
 
@@ -26,7 +26,7 @@ cookiejs.set(
     'captainObvious', 
     'Thank you Captain Obvious, you just saved my life.',
     {
-        domain: '.eric-zieger.de',                   // default: '.domain.tld',
+        domain: '.eric-zieger.de',                   // default: 'subdomain.current-domain.tld',
         path: '/the-adventures-of-captain-obvious/', // default: '/',
         expires: sYourUTCString,                     // default: undefined (session cookie)
         max-age: 60 // max-age-in-seconds,           // default: undefined
