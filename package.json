@@ -1,6 +1,6 @@
 {
   "name": "cookiejs.js",
-  "version": "0.3.1",
+  "version": "0.4.1",
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
   "scripts": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theZieger/cookiejs.git"
+    "url": "git+https://github.com/theZieger/cookiejs.js.git"
   },
   "keywords": [],
   "author": "thezieger",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/theZieger/cookiejs/issues"
+    "url": "https://github.com/theZieger/cookiejs.js/issues"
   },
-  "homepage": "https://github.com/theZieger/cookiejs#readme"
+  "homepage": "https://github.com/theZieger/cookiejs.js#readme"
 }
