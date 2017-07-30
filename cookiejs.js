@@ -50,6 +50,7 @@
      */
     cookiejs.get = function(sCookieName) {
         var aCookies,
+            aCookie,
             gCookieValue = false;
         
         if (!sCookieName || typeof sCookieName != 'string') {
@@ -59,7 +60,8 @@
         aCookies = document.cookie.split('; ');
 
         for (var i = aCookies.length - 1; i >= 0; i--) {
-            if (decodeURIComponent(aCookies[i].split('=')[0]) === sCookieName) {
+            aCookie = aCookies[i].split('=');
+            if (decodeURIComponent(aCookie[0]) === sCookieName) {
                 gCookieValue = decodeURIComponent(aCookie[1]);
             }
         }
