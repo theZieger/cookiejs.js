@@ -13,7 +13,7 @@
     } else {
         root.cookiejs = factory();
     }
-}(this, function(undefined) {
+}(this, function() {
 
     /**
      * @type {Object}
@@ -54,7 +54,7 @@
      */
     cookiejs.get = function(sCookieName) {
         var aCookies,
-            aCookie = [],
+            aCookie,
             gCookieValue = false;
         
         if (!sCookieName || typeof sCookieName != 'string') {
