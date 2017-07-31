@@ -1,9 +1,13 @@
-/**
- * cookiejs object for setting/getting/removing cookies
+/*!
+ * cookiejs.js | v0.4.1 | cookiejs object for setting/getting/removing cookies
+ * Copyright (c) 2017 Eric Zieger (MIT license)
+ * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
  */
  (function(root, factory) {
+    /** global: define */
     if (typeof define === "function" && define.amd) {
         define(["cookiejs"], factory);
+    /** global: module */
     } else if (typeof module === "object" && module.exports) {
         module.exports = factory();
     } else {
