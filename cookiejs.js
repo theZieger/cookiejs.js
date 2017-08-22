@@ -5,10 +5,10 @@
  */
  (function(root, factory) {
     /** global: define */
-    if (typeof define === "function" && define.amd) {
-        define(["cookiejs"], factory);
+    if (typeof define === 'function' && define.amd) {
+        define('cookiejs', factory);
     /** global: module */
-    } else if (typeof module === "object" && module.exports) {
+    } else if (typeof module === 'object' && module.exports) {
         module.exports = factory();
     } else {
         root.cookiejs = factory();
@@ -42,12 +42,13 @@
                 sAttributes += '; path=/';
             }
 
-            Object.keys(oAttributes).forEach(function(sAttributeName) {
-                sAttributes += ';' + sAttributeName + '=' + oAttributes[sAttributeName];
+            Object.keys(oAttributes).forEach(function(sAttrName) {
+                sAttributes += ';' + sAttrName + '=' + oAttributes[sAttrName];
             });
         }
 
-        document.cookie = encodeURIComponent(sCookieName) + '=' + encodeURIComponent(sValue) + sAttributes;
+        document.cookie = encodeURIComponent(sCookieName) + '='
+            + encodeURIComponent(sValue) + sAttributes;
     };
 
     /**
@@ -81,7 +82,8 @@
     /**
      * removes a specific cookie
      *
-     * oAttributes must contain the correct path and domain else you can't remove the cookie
+     * oAttributes must contain the correct path and domain else you can't
+     * remove the cookie
      *
      * @param {String} sCookieName
      * @param {Object} oAttributes - options e.g. domain, path, expires
