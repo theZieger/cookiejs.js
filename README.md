@@ -8,7 +8,7 @@ There is more than one way to use cookiejs.js inside your project. I prefer usin
 
 If you haven't used [npm](http://npmjs.com/) (Node Package manager) before, be sure to check out the [Getting Started](https://docs.npmjs.com/getting-started/what-is-npm) guide, as it explains how to install and use npm. Once you're familiar with that process, you may install the cookiejs.js module with this command inside your project:
 
-```
+```bash
 npm install cookiejs.js --save-dev
 ```
 
@@ -20,7 +20,7 @@ Once the module has been installed, you may integrate that file into your build 
 
 Sets a cookie.
 
-```
+```javascript
 // make sure cookiejs.js is already available when this code runs
 cookiejs.set(
     'captainObvious', 
@@ -39,7 +39,7 @@ cookiejs.set(
 
 Get the value of a cookie.
 
-```
+```javascript
 // make sure cookiejs.js is already available when this code runs
 
 cookiejs.get('captainObvious');
@@ -53,7 +53,7 @@ Removes a cookie by overwriting the expires date.
 When a custom domain and/or path atrribute is used you have to hand them as object into this function.
 Else the cookie will not get removed.
 
-```
+```javascript
 // make sure cookiejs.js is already available when this code runs
 
 cookiejs.remove(

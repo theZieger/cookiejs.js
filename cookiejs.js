@@ -21,6 +21,11 @@
     var cookiejs = {};
 
     /**
+     * @type {String}
+     */
+    var sExpireDate = 'Thu, 01 Jan 1970 00:00:01 GMT';
+
+    /**
      * sets or overwrites a cookie
      *
      * @param {String} sCookieName - the name of the cookie you want to set
@@ -32,15 +37,15 @@
     cookiejs.set = function(sCookieName, sValue, oAttributes) {
         var sAttributes = '';
 
-        oAttributes = oAttributes || {};
+        if (typeof oAttributes === 'object') {
+            if (typeof oAttributes.path !== 'string') {
+                sAttributes += '; path=/';
+            }
 
-        if (typeof oAttributes.path !== 'string') {
-            sAttributes += '; path=/';
+            Object.keys(oAttributes).forEach(function(sAttrName) {
+                sAttributes += ';' + sAttrName + '=' + oAttributes[sAttrName];
+            });
         }
-
-        Object.keys(oAttributes).forEach(function(sAttrName) {
-            sAttributes += ';' + sAttrName + '=' + oAttributes[sAttrName];
-        });
 
         document.cookie = encodeURIComponent(sCookieName) + '='
             + encodeURIComponent(sValue) + sAttributes;
@@ -84,9 +89,11 @@
      * @param {Object} oAttributes - options e.g. domain, path, expires
      */
     cookiejs.remove = function(sCookieName, oAttributes) {
-        oAttributes = oAttributes || {};
-        oAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
-        this.set(sCookieName, '', oAttributes);
+        if (typeof oAttributes === 'object') {
+            oAttributes.expires = sExpireDate;
+        }
+
+        this.set(sCookieName, '', oAttributes || {expires: sExpireDate});
     };
 
     return cookiejs;

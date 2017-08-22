@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/theZieger/cookiejs.js.git"
   },
+  "keywords": ["cookies", "client", "browser"],
+  "contributers": [
+    "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)",
+  ],
+  "files": "cookiejs.js",
   "keywords": [],
   "author": "thezieger",
   "license": "MIT",
