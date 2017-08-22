@@ -12,7 +12,7 @@
   },
   "keywords": ["cookies", "client", "browser"],
   "contributers": [
-    "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)",
+    "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)"
   ],
   "files": "cookiejs.js",
   "keywords": [],
