@@ -1,5 +1,5 @@
 /*!
- * cookiejs.js | v0.5.0 | cookiejs object for setting/getting/removing cookies
+ * cookiejs.js | v0.6.0 | cookiejs object for setting/getting/removing cookies
  * Copyright (c) 2017 Eric Zieger (MIT license)
  * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
  */
