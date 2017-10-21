@@ -37,11 +37,11 @@
     cookiejs.set = function(sCookieName, sValue, oAttributes) {
         var sAttributes = '';
 
-        if (typeof oAttributes === 'object') {
-            if (typeof oAttributes.path !== 'string') {
-                sAttributes += '; path=/';
-            }
+        if (!oAttributes || typeof oAttributes.path !== 'string') {
+            sAttributes += '; path=/';
+        }
 
+        if (oAttributes) {
             Object.keys(oAttributes).forEach(function(sAttrName) {
                 sAttributes += ';' + sAttrName + '=' + oAttributes[sAttrName];
             });
