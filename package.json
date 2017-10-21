@@ -1,6 +1,6 @@
 {
   "name": "cookiejs.js",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
   "scripts": {

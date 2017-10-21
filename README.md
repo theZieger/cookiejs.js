@@ -1,4 +1,4 @@
-# cookiejs v0.6.0 [![Build Status](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/badges/build.png?b=master)](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/build-status/master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/?branch=master) ![Downloads over NPM per month](https://img.shields.io/npm/dm/cookiejs.js.svg?maxAge=7200&colorB=cb3837)
+# cookiejs v0.6.1 [![Build Status](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/badges/build.png?b=master)](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/build-status/master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/theZieger/cookiejs.js/?branch=master) ![Downloads over NPM per month](https://img.shields.io/npm/dm/cookiejs.js.svg?maxAge=7200&colorB=cb3837)
 
 > Set, get and remove cookies.
 
