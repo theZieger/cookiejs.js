@@ -1,9 +1,9 @@
 /*!
- * cookiejs.js | v0.6.0 | cookiejs object for setting/getting/removing cookies
+ * cookiejs.js | v0.6.1 | cookiejs object for setting/getting/removing cookies
  * Copyright (c) 2017 Eric Zieger (MIT license)
  * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
  */
- (function(root, factory) {
+(function(root, factory) {
     /** global: define */
     if (typeof define === 'function' && define.amd) {
         define('cookiejs', factory);
@@ -18,7 +18,9 @@
     /**
      * @type {Object}
      */
-    var cookiejs = {};
+    var cookiejs = {
+        _root: this
+    };
 
     /**
      * @type {String}
@@ -32,10 +34,16 @@
      * @param {String} sValue - the value you want to set
      * @param {String} oAttributes - options e.g. domain, path, expires
      *
+     * @throws {TypeError} if argument sCookieName is empty or not a string
+     * 
      * @returns {String}
      */
     cookiejs.set = function(sCookieName, sValue, oAttributes) {
         var sAttributes = '';
+
+        if (!sCookieName || typeof sCookieName !== 'string') {
+            throw new TypeError('sCookieName is empty or not of type string');
+        }
 
         if (!oAttributes || typeof oAttributes.path !== 'string') {
             sAttributes += '; path=/';
@@ -47,8 +55,8 @@
             });
         }
 
-        document.cookie = encodeURIComponent(sCookieName) + '='
-            + encodeURIComponent(sValue) + sAttributes;
+        this._root.document.cookie = encodeURIComponent(sCookieName) + '='
+            + encodeURIComponent(sValue || '') + sAttributes;
     };
 
     /**
@@ -67,7 +75,7 @@
             return gCookieValue;
         }
 
-        aCookies = document.cookie.split('; ');
+        aCookies = this._root.document.cookie.split('; ');
 
         for (var i = aCookies.length - 1; i >= 0; i--) {
             aCookie = aCookies[i].split('=');

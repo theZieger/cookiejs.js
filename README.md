@@ -23,7 +23,12 @@ Sets a cookie.
 ```javascript
 // make sure cookiejs.js is already available when this code runs
 cookiejs.set(
+    // name of the cookie
+    // default: undefined
+    // required
     'captainObvious',
+    // value of the cookie
+    // default: ''
     'Thank you Captain Obvious, you just saved my life.',
     {
         // specifies allowed hosts to receive the cookie
