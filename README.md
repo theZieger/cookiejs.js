@@ -23,14 +23,24 @@ Sets a cookie.
 ```javascript
 // make sure cookiejs.js is already available when this code runs
 cookiejs.set(
-    'captainObvious', 
+    'captainObvious',
     'Thank you Captain Obvious, you just saved my life.',
     {
-        domain: '.eric-zieger.de',                   // default: 'subdomain.current-domain.tld',
-        path: '/the-adventures-of-captain-obvious/', // default: '/',
-        expires: sYourUTCString,                     // default: undefined (session cookie)
-        max-age: 60 // max-age-in-seconds,           // default: undefined
-        secure: true                                 // default: undefined
+        // specifies allowed hosts to receive the cookie
+        // default: the host of the current document location
+        'domain': '.eric-zieger.de',
+        // indicates a URL path that must exist in the requested URL
+        // default: '/',
+        'path': '/the-adventures-of-captain-obvious/',
+        // cookie is deleted when the client shuts down (session-cookie) or when the expire date is reached
+        // default: session-cookie
+        'expires': sYourUTCString,
+        // cookie expires after a specific length of time in seconds
+        // default: undefined
+        'max-age': 3600
+        // cookie is only sent to the server with a encrypted request over the HTTPS protocol
+        // default: false
+        'secure': true
     }
 )
 ```
