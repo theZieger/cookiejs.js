@@ -4,22 +4,33 @@
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
+  },
+  "nyc": {
+    "exclude": [
+      "spec/**/*.js"
+    ],
+    "reporter": "clover",
+    "report-dir": "coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/theZieger/cookiejs.js.git"
   },
   "keywords": ["cookies", "client", "browser"],
-  "contributers": [
+  "contributors": [
     "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)"
   ],
-  "files": "cookiejs.js",
-  "keywords": [],
+  "files": [
+    "cookiejs.js"
+  ],
   "author": "thezieger",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/theZieger/cookiejs.js/issues"
   },
-  "homepage": "https://github.com/theZieger/cookiejs.js#readme"
+  "homepage": "https://github.com/theZieger/cookiejs.js#readme",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
 }
