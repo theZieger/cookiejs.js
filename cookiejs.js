@@ -16,93 +16,111 @@
 }(this, function() {
 
     /**
-     * @type {Object}
+     * throwTypeError
+     *
+     * @param {String} sName
+     * @param {String} sType
+     *
+     * @throws {TypeError}
      */
-    var cookiejs = {
-        _root: this
+    var throwTypeError = function(sName, sType) {
+        throw new TypeError(sName + ' is not of type ' + sType);
     };
 
-    /**
-     * @type {String}
-     */
-    var sExpireDate = 'Thu, 01 Jan 1970 00:00:01 GMT';
+    return {
+        /**
+         * stands for 'root' and is only needed for logic testing
+         * via jasmine inside the node environment
+         */ 
+        r: this,
 
-    /**
-     * sets or overwrites a cookie
-     *
-     * @param {String} sCookieName - the name of the cookie you want to set
-     * @param {String} sValue - the value you want to set
-     * @param {String} oAttributes - options e.g. domain, path, expires
-     *
-     * @throws {TypeError} if argument sCookieName is empty or not a string
-     * 
-     * @returns {String}
-     */
-    cookiejs.set = function(sCookieName, sValue, oAttributes) {
-        var sAttributes = '';
+        /**
+         * sets or overwrites a cookie
+         *
+         * @param {String} sCookieName - the name of the cookie you want to set
+         * @param {String} sValue - the value you want to set
+         * @param {String} oAttributes - options e.g. domain, path, expires
+         *
+         * @throws {TypeError} if argument sCookieName is empty or not a string
+         */
+        set: function(sCookieName, sValue, oAttributes) {
+            var sAttributes = '';
 
-        if (!sCookieName || typeof sCookieName !== 'string') {
-            throw new TypeError('sCookieName is empty or not of type string');
-        }
-
-        if (!oAttributes || typeof oAttributes.path !== 'string') {
-            sAttributes += '; path=/';
-        }
-
-        if (oAttributes) {
-            Object.keys(oAttributes).forEach(function(sAttrName) {
-                sAttributes += ';' + sAttrName + '=' + oAttributes[sAttrName];
-            });
-        }
-
-        this._root.document.cookie = encodeURIComponent(sCookieName) + '='
-            + encodeURIComponent(sValue || '') + sAttributes;
-    };
-
-    /**
-     * returns the value of a cookie
-     *
-     * @param {String} sCookieName
-     *
-     * @returns {String|Boolean}
-     */
-    cookiejs.get = function(sCookieName) {
-        var aCookies,
-            aCookie,
-            gCookieValue = false;
-
-        if (!sCookieName || typeof sCookieName != 'string') {
-            return gCookieValue;
-        }
-
-        aCookies = this._root.document.cookie.split('; ');
-
-        for (var i = aCookies.length - 1; i >= 0; i--) {
-            aCookie = aCookies[i].split('=');
-            if (decodeURIComponent(aCookie[0]) === sCookieName) {
-                gCookieValue = decodeURIComponent(aCookie[1]);
+            if (!sCookieName || typeof sCookieName !== 'string') {
+                throwTypeError('sCookieName', 'string');
             }
+
+            if (sValue && typeof sValue !== 'string') {
+                throwTypeError('sValue', 'string');
+            }
+
+            if (!oAttributes) {
+                sAttributes += '; path=/';
+            } else {
+                if (oAttributes !== 'object' || Array.isArray(oAttributes)) {
+                    throwTypeError('oAttributes', 'object');
+                }
+
+                Object.keys(oAttributes).forEach(function(sAttr) {
+                    if (typeof oAttributes[sAttr] !== 'string') {
+                        throwTypeError(sAttr, 'string');
+                    }
+
+                    sAttributes += ';' + sAttr + '=' + oAttributes[sAttr];
+                });
+            }
+
+            this.r.document.cookie = encodeURIComponent(sCookieName) + '='
+                + encodeURIComponent(sValue || '') + sAttributes;
+        },
+
+        /**
+         * returns the value of a cookie
+         *
+         * @param {String} sCookieName
+         *
+         * @throws {TypeError}
+         *
+         * @returns {String|Boolean}
+         */
+        get: function(sCookieName) {
+            var gCookieValue = false;
+
+            if (!sCookieName || typeof sCookieName !== 'string') {
+                throwTypeError('sCookieName', 'string');
+            }
+
+            this.r.document.cookie.split('; ').some(function(sCookie) {
+                var aCookie = sCookie.split('=');
+
+                if (decodeURIComponent(aCookie[0]) === sCookieName) {
+                    gCookieValue = decodeURIComponent(aCookie[1]);
+                    return true;
+                }
+            });
+
+            return gCookieValue;
+        },
+
+        /**
+         * removes a specific cookie
+         *
+         * oAttributes must contain the correct path and domain it won't
+         * remove the cookie
+         *
+         * @param {String} sCookieName
+         * @param {Object} oAttributes - options e.g. domain, path, expires
+         *
+         * @throws {TypeError}
+         */
+        remove: function(sCookieName, oAttributes) {
+            oAttributes = oAttributes || {};
+
+            if (typeof oAttributes === 'object') {
+                oAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
+            }
+
+            this.set(sCookieName, '', oAttributes);
         }
-
-        return gCookieValue;
     };
-
-    /**
-     * removes a specific cookie
-     *
-     * oAttributes must contain the correct path and domain else you can't
-     * remove the cookie
-     *
-     * @param {String} sCookieName
-     * @param {Object} oAttributes - options e.g. domain, path, expires
-     */
-    cookiejs.remove = function(sCookieName, oAttributes) {
-        if (typeof oAttributes === 'object') {
-            oAttributes.expires = sExpireDate;
-        }
-
-        this.set(sCookieName, '', oAttributes || {expires: sExpireDate});
-    };
-
-    return cookiejs;
 }));

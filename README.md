@@ -42,10 +42,10 @@ cookiejs.set(
         'expires': sYourUTCString,
         // cookie expires after a specific length of time in seconds
         // default: undefined
-        'max-age': 3600
+        'max-age': '3600',
         // cookie is only sent to the server with a encrypted request over the HTTPS protocol
         // default: false
-        'secure': true
+        'secure': 'true'
     }
 )
 ```
