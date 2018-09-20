@@ -1,4 +1,3 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.cookiejs = f()}})(function(){var define,module,exports;module={exports:(exports={})};
 /*!
  * cookiejs.js | v1.0.0 | cookiejs object for setting/getting/removing cookies
  * Copyright (c) 2017 Eric Zieger (MIT license)
@@ -114,6 +113,3 @@ var cookiejs = {
 };
 
 module.exports = cookiejs;
-
-return module.exports;});
-

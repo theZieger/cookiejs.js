@@ -1,10 +1,11 @@
 {
   "name": "cookiejs.js",
-  "version": "0.6.1",
+  "version": "1.0.0",
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine",
+    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c"
   },
   "nyc": {
     "exclude": [
@@ -17,7 +18,12 @@
     "type": "git",
     "url": "git+https://github.com/theZieger/cookiejs.js.git"
   },
-  "keywords": ["cookies", "client", "browser"],
+  "keywords": [
+    "cookies",
+    "client",
+    "browser",
+    "umd"
+  ],
   "contributors": [
     "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)"
   ],
@@ -31,6 +37,7 @@
   },
   "homepage": "https://github.com/theZieger/cookiejs.js#readme",
   "devDependencies": {
-    "jasmine": "^2.8.0"
+    "jasmine": "^3.2.0",
+    "umd": "^3.0.3"
   }
 }
