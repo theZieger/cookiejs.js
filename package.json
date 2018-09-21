@@ -5,7 +5,8 @@
   "main": "cookiejs.js",
   "scripts": {
     "test": "jasmine",
-    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c"
+    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c",
+    "precommit": "pretty-quick --staged"
   },
   "nyc": {
     "exclude": [
@@ -38,6 +39,9 @@
   "homepage": "https://github.com/theZieger/cookiejs.js#readme",
   "devDependencies": {
     "jasmine": "^3.2.0",
-    "umd": "^3.0.3"
+    "umd": "^3.0.3",
+    "husky": "^0.14.3",
+    "prettier": "^1.14.2",
+    "pretty-quick": "^1.6.0"
   }
 }
