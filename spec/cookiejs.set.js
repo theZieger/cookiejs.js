@@ -46,14 +46,14 @@ describe("cookie.set", function() {
   describe("argument oAttribute", function() {
     it("should be aplied correctly", function() {
       cookiejs.set.bind(null, "test", "test", {
-        domain: "https://somedomain.com",
+        domain: ".somedomain.com",
         path: "/somepath",
         "max-age": "60",
-        secure: "false",
+        secure: true,
         expires: "atsometime"
       })();
       expect(cookiejs.global.cookie).toEqual(
-        "test=test;domain=https://somedomain.com;path=/somepath;max-age=60;secure=false;expires=atsometime"
+        "test=test;domain=.somedomain.com;path=/somepath;max-age=60;secure;expires=atsometime"
       );
     });
 
@@ -95,12 +95,30 @@ describe("cookie.set", function() {
       ).toThrowError(TypeError);
     });
 
-    it("property secure should be of type string", function() {
+    it("property secure should be of type boolean", function() {
       expect(
         cookiejs.set.bind(null, "test", "test", {
-          secure: false
+          secure: "false"
         })
       ).toThrowError(TypeError);
+    });
+  });
+
+  describe("cookie remove", function() {
+    it("is performed correctly", function() {
+      cookiejs.set("test", "test", {
+        domain: ".somedomain.com",
+        path: "/somepath",
+        "max-age": "60"
+      });
+      cookiejs.remove("test", {
+        domain: ".somedomain.com",
+        path: "/somepath",
+        "max-age": "60"
+      });
+      expect(cookiejs.global.cookie).toEqual(
+        "test=;domain=.somedomain.com;path=/somepath;max-age=60;expires=Thu, 01 Jan 1970 00:00:01 GMT"
+      );
     });
   });
 });

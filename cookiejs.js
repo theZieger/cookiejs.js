@@ -68,7 +68,18 @@
         }
 
         Object.keys(oAttributes).forEach(function(sAttr) {
-          if (typeof oAttributes[sAttr] !== "string") {
+          if (sAttr === "secure") {
+            // checking for not equal 'true' is for backwards compatability with older and wrong code
+            if (
+              typeof oAttributes[sAttr] !== "boolean" &&
+              oAttributes[sAttr] !== "true"
+            ) {
+              throwTypeError(sAttr, "boolean");
+            } else if (oAttributes[sAttr] === true) {
+              sAttributes += ";" + sAttr;
+              return;
+            }
+          } else if (typeof oAttributes[sAttr] !== "string") {
             throwTypeError(sAttr, "string");
           }
 
@@ -106,6 +117,8 @@
           gCookieValue = decodeURIComponent(aCookie[1]);
           return true;
         }
+
+        return false;
       });
 
       return gCookieValue;
@@ -123,13 +136,16 @@
      * @throws {TypeError}
      */
     remove: function(sCookieName, oAttributes) {
-      oAttributes = oAttributes || {};
+      var oRemoveAttributes = oAttributes || {};
 
-      if (typeof oAttributes === "object") {
-        oAttributes.expires = "Thu, 01 Jan 1970 00:00:01 GMT";
+      if (
+        typeof oRemoveAttributes === "object" &&
+        !Array.isArray(oRemoveAttributes)
+      ) {
+        oRemoveAttributes.expires = "Thu, 01 Jan 1970 00:00:01 GMT";
       }
 
-      this.set(sCookieName, "", oAttributes);
+      cookiejs.set(sCookieName, "", oRemoveAttributes);
     }
   };
 
