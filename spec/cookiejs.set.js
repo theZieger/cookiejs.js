@@ -1,5 +1,5 @@
 // load cookie lib
-var cookiejs = require("../src/cookiejs");
+var cookiejs = require("../cookiejs");
 
 /**
  * since we need browser context which we obviously don't have when running

@@ -5,7 +5,7 @@
   "main": "cookiejs.js",
   "scripts": {
     "test": "jasmine",
-    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c",
+    "build": "node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c && npm test",
     "precommit": "pretty-quick --staged"
   },
   "nyc": {
