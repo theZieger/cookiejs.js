@@ -1,24 +1,44 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.cookiejs = f()}})(function(){var define,module,exports;module={exports:(exports={})};
-/*!
+(function(f) {
+  if (typeof exports === "object" && typeof module !== "undefined") {
+    module.exports = f();
+  } else if (typeof define === "function" && define.amd) {
+    define([], f);
+  } else {
+    var g;
+    if (typeof window !== "undefined") {
+      g = window;
+    } else if (typeof global !== "undefined") {
+      g = global;
+    } else if (typeof self !== "undefined") {
+      g = self;
+    } else {
+      g = this;
+    }
+    g.cookiejs = f();
+  }
+})(function() {
+  var define, module, exports;
+  module = { exports: (exports = {}) };
+  /*!
  * cookiejs.js | v1.0.0 | cookiejs object for setting/getting/removing cookies
  * Copyright (c) 2017 Eric Zieger (MIT license)
  * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
  */
 
-/**
- * throwTypeError
- *
- * @param {String} sName
- * @param {String} sType
- *
- * @throws {TypeError}
- */
-var throwTypeError = function(sName, sType) {
-    throw new TypeError(sName + ' is not of type ' + sType);
-};
+  /**
+   * throwTypeError
+   *
+   * @param {String} sName
+   * @param {String} sType
+   *
+   * @throws {TypeError}
+   */
+  var throwTypeError = function(sName, sType) {
+    throw new TypeError(sName + " is not of type " + sType);
+  };
 
-var cookiejs = {
-    global: this.document ? this.document : {cookie: ''},
+  var cookiejs = {
+    global: this.document ? this.document : { cookie: "" },
 
     /**
      * sets or overwrites a cookie
@@ -30,37 +50,37 @@ var cookiejs = {
      * @throws {TypeError} if argument sCookieName is empty or not a string
      */
     set: function(sCookieName, sValue, oAttributes) {
-        var sAttributes = '';
+      var sAttributes = "";
 
-        if (!sCookieName || typeof sCookieName !== 'string') {
-            throwTypeError('sCookieName', 'string');
+      if (!sCookieName || typeof sCookieName !== "string") {
+        throwTypeError("sCookieName", "string");
+      }
+
+      if (sValue && typeof sValue !== "string") {
+        throwTypeError("sValue", "string");
+      }
+
+      if (oAttributes === undefined) {
+        sAttributes += "; path=/";
+      } else {
+        if (typeof oAttributes !== "object" || Array.isArray(oAttributes)) {
+          throwTypeError("oAttributes", "object");
         }
 
-        if (sValue && typeof sValue !== 'string') {
-            throwTypeError('sValue', 'string');
-        }
+        Object.keys(oAttributes).forEach(function(sAttr) {
+          if (typeof oAttributes[sAttr] !== "string") {
+            throwTypeError(sAttr, "string");
+          }
 
-        if (!oAttributes) {
-            sAttributes += '; path=/';
-        } else {
-            if (oAttributes !== 'object' || Array.isArray(oAttributes)) {
-                throwTypeError('oAttributes', 'object');
-            }
+          sAttributes += ";" + sAttr + "=" + oAttributes[sAttr];
+        });
+      }
 
-            Object.keys(oAttributes).forEach(function(sAttr) {
-                if (typeof oAttributes[sAttr] !== 'string') {
-                    throwTypeError(sAttr, 'string');
-                }
-
-                sAttributes += ';' + sAttr + '=' + oAttributes[sAttr];
-            });
-        }
-
-        cookiejs.global.cookie =
-            encodeURIComponent(sCookieName) +
-            '=' +
-            encodeURIComponent(sValue || '') +
-            sAttributes;
+      cookiejs.global.cookie =
+        encodeURIComponent(sCookieName) +
+        "=" +
+        encodeURIComponent(sValue || "") +
+        sAttributes;
     },
 
     /**
@@ -73,22 +93,22 @@ var cookiejs = {
      * @returns {String|Boolean}
      */
     get: function(sCookieName) {
-        var gCookieValue = false;
+      var gCookieValue = false;
 
-        if (!sCookieName || typeof sCookieName !== 'string') {
-            throwTypeError('sCookieName', 'string');
+      if (!sCookieName || typeof sCookieName !== "string") {
+        throwTypeError("sCookieName", "string");
+      }
+
+      cookiejs.global.cookie.split("; ").some(function(sCookie) {
+        var aCookie = sCookie.split("=");
+
+        if (decodeURIComponent(aCookie[0]) === sCookieName) {
+          gCookieValue = decodeURIComponent(aCookie[1]);
+          return true;
         }
+      });
 
-        cookiejs.global.cookie.split('; ').some(function(sCookie) {
-            var aCookie = sCookie.split('=');
-
-            if (decodeURIComponent(aCookie[0]) === sCookieName) {
-                gCookieValue = decodeURIComponent(aCookie[1]);
-                return true;
-            }
-        });
-
-        return gCookieValue;
+      return gCookieValue;
     },
 
     /**
@@ -103,17 +123,17 @@ var cookiejs = {
      * @throws {TypeError}
      */
     remove: function(sCookieName, oAttributes) {
-        oAttributes = oAttributes || {};
+      oAttributes = oAttributes || {};
 
-        if (typeof oAttributes === 'object') {
-            oAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
-        }
+      if (typeof oAttributes === "object") {
+        oAttributes.expires = "Thu, 01 Jan 1970 00:00:01 GMT";
+      }
 
-        this.set(sCookieName, '', oAttributes);
+      this.set(sCookieName, "", oAttributes);
     }
-};
+  };
 
-module.exports = cookiejs;
+  module.exports = cookiejs;
 
-return module.exports;});
-
+  return module.exports;
+});
