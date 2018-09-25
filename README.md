@@ -23,16 +23,31 @@ Sets a cookie.
 ```javascript
 // make sure cookiejs.js is already available when this code runs
 cookiejs.set(
-    'captainObvious', 
-    'Thank you Captain Obvious, you just saved my life.',
-    {
-        domain: '.eric-zieger.de',                   // default: 'subdomain.current-domain.tld',
-        path: '/the-adventures-of-captain-obvious/', // default: '/',
-        expires: sYourUTCString,                     // default: undefined (session cookie)
-        max-age: 60 // max-age-in-seconds,           // default: undefined
-        secure: true                                 // default: undefined
-    }
-)
+  // name of the cookie
+  // default: undefined
+  // required
+  "captainObvious",
+  // value of the cookie
+  // default: ''
+  "Thank you Captain Obvious, you just saved my life.",
+  {
+    // specifies allowed hosts to receive the cookie
+    // default: the host of the current document location
+    domain: ".eric-zieger.de",
+    // indicates a URL path that must exist in the requested URL
+    // default: '/',
+    path: "/the-adventures-of-captain-obvious/",
+    // cookie is deleted when the client shuts down (session-cookie) or when the expire date is reached
+    // default: session-cookie
+    expires: new Date("2040-01-01").toUTCString(),
+    // cookie expires after a specific length of time in seconds
+    // default: undefined
+    "max-age": "3600",
+    // cookie is only sent to the server with a encrypted request over the HTTPS protocol
+    // default: false
+    secure: "true"
+  }
+);
 ```
 
 ### cookiejs.get(sCookieName)
@@ -42,7 +57,7 @@ Get the value of a cookie.
 ```javascript
 // make sure cookiejs.js is already available when this code runs
 
-cookiejs.get('captainObvious');
+cookiejs.get("captainObvious");
 
 // returns 'Thank you Captain Obvious, you just saved my life.'
 ```
@@ -56,11 +71,8 @@ Else the cookie will not get removed.
 ```javascript
 // make sure cookiejs.js is already available when this code runs
 
-cookiejs.remove(
-    'captainObvious',
-    {
-        domain: '.eric-zieger.de',
-        path: '/the-adventures-of-captain-obvious/'
-    }
-);
-``` 
+cookiejs.remove("captainObvious", {
+  domain: ".eric-zieger.de",
+  path: "/the-adventures-of-captain-obvious/"
+});
+```

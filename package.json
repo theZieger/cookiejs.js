@@ -1,25 +1,50 @@
 {
   "name": "cookiejs.js",
-  "version": "0.6.1",
+  "version": "1.0.0",
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine",
+    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c",
+    "precommit": "pretty-quick --staged"
+  },
+  "nyc": {
+    "exclude": [
+      "spec/**/*.js"
+    ],
+    "reporter": "clover",
+    "report-dir": "coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/theZieger/cookiejs.js.git"
   },
-  "keywords": ["cookies", "client", "browser"],
-  "contributers": [
+  "keywords": [
+    "cookies",
+    "client",
+    "browser",
+    "umd"
+  ],
+  "contributors": [
     "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)"
   ],
-  "files": "cookiejs.js",
-  "keywords": [],
+  "files": [
+    "cookiejs.js"
+  ],
   "author": "thezieger",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/theZieger/cookiejs.js/issues"
   },
-  "homepage": "https://github.com/theZieger/cookiejs.js#readme"
+  "homepage": "https://github.com/theZieger/cookiejs.js#readme",
+  "devDependencies": {
+    "jasmine": "^3.2.0",
+    "umd": "^3.0.3",
+    "husky": "^1.0.0-rc.15",
+    "prettier": "^1.14.2",
+    "pretty-quick": "^1.6.0"
+  },
+  "dependencies": {
+    "nyc": "^13.0.1"
+  }
 }

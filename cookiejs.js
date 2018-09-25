@@ -1,29 +1,44 @@
-/*!
- * cookiejs.js | v0.6.0 | cookiejs object for setting/getting/removing cookies
+(function(f) {
+  if (typeof exports === 'object' && typeof module !== 'undefined') {
+    module.exports = f();
+  } else if (typeof define === 'function' && define.amd) {
+    define([], f);
+  } else {
+    var g;
+    if (typeof window !== 'undefined') {
+      g = window;
+    } else if (typeof global !== 'undefined') {
+      g = global;
+    } else if (typeof self !== 'undefined') {
+      g = self;
+    } else {
+      g = this;
+    }
+    g.cookiejs = f();
+  }
+})(function() {
+  var define, module, exports;
+  module = { exports: (exports = {}) };
+  /*!
+ * cookiejs.js | v1.0.0 | cookiejs object for setting/getting/removing cookies
  * Copyright (c) 2017 Eric Zieger (MIT license)
  * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
  */
- (function(root, factory) {
-    /** global: define */
-    if (typeof define === 'function' && define.amd) {
-        define('cookiejs', factory);
-    /** global: module */
-    } else if (typeof module === 'object' && module.exports) {
-        module.exports = factory();
-    } else {
-        root.cookiejs = factory();
-    }
-}(this, function() {
 
-    /**
-     * @type {Object}
-     */
-    var cookiejs = {};
+  /**
+   * throwTypeError
+   *
+   * @param {String} sName
+   * @param {String} sType
+   *
+   * @throws {TypeError}
+   */
+  var throwTypeError = function(sName, sType) {
+    throw new TypeError(sName + ' is not of type ' + sType);
+  };
 
-    /**
-     * @type {String}
-     */
-    var sExpireDate = 'Thu, 01 Jan 1970 00:00:01 GMT';
+  var cookiejs = {
+    global: this.document ? this.document : { cookie: '' },
 
     /**
      * sets or overwrites a cookie
@@ -32,69 +47,107 @@
      * @param {String} sValue - the value you want to set
      * @param {String} oAttributes - options e.g. domain, path, expires
      *
-     * @returns {String}
+     * @throws {TypeError} if argument sCookieName is empty or not a string
      */
-    cookiejs.set = function(sCookieName, sValue, oAttributes) {
-        var sAttributes = '';
+    set: function(sCookieName, sValue, oAttributes) {
+      var sAttributes = '';
 
-        if (!oAttributes || typeof oAttributes.path !== 'string') {
-            sAttributes += '; path=/';
+      sValue = sValue || '';
+
+      if (!sCookieName || typeof sCookieName !== 'string') {
+        throwTypeError('sCookieName', 'string');
+      }
+
+      if (typeof sValue !== 'string') {
+        throwTypeError('sValue', 'string');
+      }
+
+      if (oAttributes === undefined) {
+        sAttributes += '; path=/';
+      } else {
+        if (typeof oAttributes !== 'object' || Array.isArray(oAttributes)) {
+          throwTypeError('oAttributes', 'object');
         }
 
-        if (oAttributes) {
-            Object.keys(oAttributes).forEach(function(sAttrName) {
-                sAttributes += ';' + sAttrName + '=' + oAttributes[sAttrName];
-            });
-        }
+        Object.keys(oAttributes).forEach(function(sAttr) {
+          if (sAttr === 'secure') {
+            if (oAttributes[sAttr] === true || oAttributes[sAttr] === 'true') {
+              sAttributes += ';' + sAttr;
+              return;
+            } else {
+              throwTypeError(sAttr, 'boolean');
+            }
+          } else if (typeof oAttributes[sAttr] !== 'string') {
+            throwTypeError(sAttr, 'string');
+          }
 
-        document.cookie = encodeURIComponent(sCookieName) + '='
-            + encodeURIComponent(sValue) + sAttributes;
-    };
+          sAttributes += ';' + sAttr + '=' + oAttributes[sAttr];
+        });
+      }
+
+      cookiejs.global.cookie =
+        encodeURIComponent(sCookieName) +
+        '=' +
+        encodeURIComponent(sValue) +
+        sAttributes;
+    },
 
     /**
      * returns the value of a cookie
      *
      * @param {String} sCookieName
      *
+     * @throws {TypeError}
+     *
      * @returns {String|Boolean}
      */
-    cookiejs.get = function(sCookieName) {
-        var aCookies,
-            aCookie,
-            gCookieValue = false;
+    get: function(sCookieName) {
+      var gCookieValue = false;
 
-        if (!sCookieName || typeof sCookieName != 'string') {
-            return gCookieValue;
+      if (!sCookieName || typeof sCookieName !== 'string') {
+        throwTypeError('sCookieName', 'string');
+      }
+
+      cookiejs.global.cookie.split('; ').some(function(sCookie) {
+        var aCookie = sCookie.split('=');
+
+        if (decodeURIComponent(aCookie[0]) === sCookieName) {
+          gCookieValue = decodeURIComponent(aCookie[1]);
+          return true;
         }
 
-        aCookies = document.cookie.split('; ');
+        return false;
+      });
 
-        for (var i = aCookies.length - 1; i >= 0; i--) {
-            aCookie = aCookies[i].split('=');
-            if (decodeURIComponent(aCookie[0]) === sCookieName) {
-                gCookieValue = decodeURIComponent(aCookie[1]);
-            }
-        }
-
-        return gCookieValue;
-    };
+      return gCookieValue;
+    },
 
     /**
      * removes a specific cookie
      *
-     * oAttributes must contain the correct path and domain else you can't
+     * oAttributes must contain the correct path and domain it won't
      * remove the cookie
      *
      * @param {String} sCookieName
      * @param {Object} oAttributes - options e.g. domain, path, expires
+     *
+     * @throws {TypeError}
      */
-    cookiejs.remove = function(sCookieName, oAttributes) {
-        if (typeof oAttributes === 'object') {
-            oAttributes.expires = sExpireDate;
-        }
+    remove: function(sCookieName, oAttributes) {
+      var oRemoveAttributes = oAttributes || {};
 
-        this.set(sCookieName, '', oAttributes || {expires: sExpireDate});
-    };
+      if (
+        typeof oRemoveAttributes === 'object' &&
+        !Array.isArray(oRemoveAttributes)
+      ) {
+        oRemoveAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
+      }
 
-    return cookiejs;
-}));
+      cookiejs.set(sCookieName, '', oRemoveAttributes);
+    }
+  };
+
+  module.exports = cookiejs;
+
+  return module.exports;
+});
