@@ -1,5 +1,5 @@
 // load cookie lib
-var cookiejs = require('../cookiejs');
+var cookiejs = require('../src/cookiejs');
 
 /**
  * since we need browser context which we obviously don't have when running
@@ -20,7 +20,10 @@ describe('cookie', function() {
 
   describe('argument sCookieName', function() {
     it('should be defined', function() {
-      expect(cookiejs.set).toThrowError(TypeError);
+      expect(cookiejs.set).toThrowError(
+        TypeError,
+        'sCookieName is not of type string'
+      );
     });
 
     it('should be a non falsy value', function() {
@@ -158,11 +161,6 @@ describe('cookie', function() {
 
   describe('cookie remove', function() {
     it('is performed correctly', function() {
-      cookiejs.set('test', 'test', {
-        domain: '.somedomain.com',
-        path: '/somepath',
-        'max-age': '60'
-      });
       cookiejs.remove('test', {
         domain: '.somedomain.com',
         path: '/somepath',
@@ -171,6 +169,34 @@ describe('cookie', function() {
       expect(cookiejs.global.cookie).toEqual(
         'test=;domain=.somedomain.com;path=/somepath;max-age=60;expires=Thu, 01 Jan 1970 00:00:01 GMT'
       );
+      cookiejs.remove('test');
+      expect(cookiejs.global.cookie).toEqual(
+        'test=;expires=Thu, 01 Jan 1970 00:00:01 GMT'
+      );
+    });
+
+    it('throws TypeError bco sCookieName', function() {
+      expect(cookiejs.remove.bind(null)).toThrowError(TypeError);
+    });
+
+    it('throws TypeError bco oAttributes', function() {
+      expect(cookiejs.remove.bind(null, 'test', 123)).toThrowError(TypeError);
+    });
+  });
+
+  describe('get cookie value', function() {
+    it('is performed correctly', function() {
+      expect(
+        (function() {
+          cookiejs.global.cookie =
+            '_ga=GA1.2.275361089.1527101378; _gcl_au=1.1.697370153.1537362740; _gid=GA1.2.476548619.1537816787';
+          return cookiejs.get('_gcl_au');
+        })()
+      ).toEqual('1.1.697370153.1537362740');
+    });
+
+    it('throws TypeError', function() {
+      expect(cookiejs.get.bind(null)).toThrowError(TypeError);
     });
   });
 });

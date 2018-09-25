@@ -50,15 +50,11 @@ var cookiejs = {
 
       Object.keys(oAttributes).forEach(function(sAttr) {
         if (sAttr === 'secure') {
-          // checking for not equal 'true' is for backwards compatability with older and wrong code
-          if (
-            typeof oAttributes[sAttr] !== 'boolean' &&
-            oAttributes[sAttr] !== 'true'
-          ) {
-            throwTypeError(sAttr, 'boolean');
-          } else if (oAttributes[sAttr] === true) {
+          if (oAttributes[sAttr] === true || oAttributes[sAttr] === 'true') {
             sAttributes += ';' + sAttr;
             return;
+          } else {
+            throwTypeError(sAttr, 'boolean');
           }
         } else if (typeof oAttributes[sAttr] !== 'string') {
           throwTypeError(sAttr, 'string');
