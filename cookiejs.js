@@ -1,15 +1,15 @@
 (function(f) {
-  if (typeof exports === "object" && typeof module !== "undefined") {
+  if (typeof exports === 'object' && typeof module !== 'undefined') {
     module.exports = f();
-  } else if (typeof define === "function" && define.amd) {
+  } else if (typeof define === 'function' && define.amd) {
     define([], f);
   } else {
     var g;
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       g = window;
-    } else if (typeof global !== "undefined") {
+    } else if (typeof global !== 'undefined') {
       g = global;
-    } else if (typeof self !== "undefined") {
+    } else if (typeof self !== 'undefined') {
       g = self;
     } else {
       g = this;
@@ -34,11 +34,11 @@
    * @throws {TypeError}
    */
   var throwTypeError = function(sName, sType) {
-    throw new TypeError(sName + " is not of type " + sType);
+    throw new TypeError(sName + ' is not of type ' + sType);
   };
 
   var cookiejs = {
-    global: this.document ? this.document : { cookie: "" },
+    global: this.document ? this.document : { cookie: '' },
 
     /**
      * sets or overwrites a cookie
@@ -50,47 +50,49 @@
      * @throws {TypeError} if argument sCookieName is empty or not a string
      */
     set: function(sCookieName, sValue, oAttributes) {
-      var sAttributes = "";
+      var sAttributes = '';
 
-      if (!sCookieName || typeof sCookieName !== "string") {
-        throwTypeError("sCookieName", "string");
+      sValue = sValue || '';
+
+      if (!sCookieName || typeof sCookieName !== 'string') {
+        throwTypeError('sCookieName', 'string');
       }
 
-      if (sValue && typeof sValue !== "string") {
-        throwTypeError("sValue", "string");
+      if (typeof sValue !== 'string') {
+        throwTypeError('sValue', 'string');
       }
 
       if (oAttributes === undefined) {
-        sAttributes += "; path=/";
+        sAttributes += '; path=/';
       } else {
-        if (typeof oAttributes !== "object" || Array.isArray(oAttributes)) {
-          throwTypeError("oAttributes", "object");
+        if (typeof oAttributes !== 'object' || Array.isArray(oAttributes)) {
+          throwTypeError('oAttributes', 'object');
         }
 
         Object.keys(oAttributes).forEach(function(sAttr) {
-          if (sAttr === "secure") {
+          if (sAttr === 'secure') {
             // checking for not equal 'true' is for backwards compatability with older and wrong code
             if (
-              typeof oAttributes[sAttr] !== "boolean" &&
-              oAttributes[sAttr] !== "true"
+              typeof oAttributes[sAttr] !== 'boolean' &&
+              oAttributes[sAttr] !== 'true'
             ) {
-              throwTypeError(sAttr, "boolean");
+              throwTypeError(sAttr, 'boolean');
             } else if (oAttributes[sAttr] === true) {
-              sAttributes += ";" + sAttr;
+              sAttributes += ';' + sAttr;
               return;
             }
-          } else if (typeof oAttributes[sAttr] !== "string") {
-            throwTypeError(sAttr, "string");
+          } else if (typeof oAttributes[sAttr] !== 'string') {
+            throwTypeError(sAttr, 'string');
           }
 
-          sAttributes += ";" + sAttr + "=" + oAttributes[sAttr];
+          sAttributes += ';' + sAttr + '=' + oAttributes[sAttr];
         });
       }
 
       cookiejs.global.cookie =
         encodeURIComponent(sCookieName) +
-        "=" +
-        encodeURIComponent(sValue || "") +
+        '=' +
+        encodeURIComponent(sValue) +
         sAttributes;
     },
 
@@ -106,12 +108,12 @@
     get: function(sCookieName) {
       var gCookieValue = false;
 
-      if (!sCookieName || typeof sCookieName !== "string") {
-        throwTypeError("sCookieName", "string");
+      if (!sCookieName || typeof sCookieName !== 'string') {
+        throwTypeError('sCookieName', 'string');
       }
 
-      cookiejs.global.cookie.split("; ").some(function(sCookie) {
-        var aCookie = sCookie.split("=");
+      cookiejs.global.cookie.split('; ').some(function(sCookie) {
+        var aCookie = sCookie.split('=');
 
         if (decodeURIComponent(aCookie[0]) === sCookieName) {
           gCookieValue = decodeURIComponent(aCookie[1]);
@@ -139,13 +141,13 @@
       var oRemoveAttributes = oAttributes || {};
 
       if (
-        typeof oRemoveAttributes === "object" &&
+        typeof oRemoveAttributes === 'object' &&
         !Array.isArray(oRemoveAttributes)
       ) {
-        oRemoveAttributes.expires = "Thu, 01 Jan 1970 00:00:01 GMT";
+        oRemoveAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
       }
 
-      cookiejs.set(sCookieName, "", oRemoveAttributes);
+      cookiejs.set(sCookieName, '', oRemoveAttributes);
     }
   };
 
