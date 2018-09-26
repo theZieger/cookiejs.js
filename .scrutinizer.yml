@@ -1,0 +1,20 @@
+checks:
+  javascript: true
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - js-scrutinizer-run
+  dependencies:
+    before:
+      - npm install nyc
+  tests:
+    override:
+      - node_modules/nyc/bin/nyc.js npm test
+
+filter:
+  excluded_paths:
+    - 'cookiejs.es.js'
+    - 'cookiejs.js'
+    - 'toES6Module.js'

@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
+  "module": "cookiejs.es.js",
   "scripts": {
     "test": "jasmine",
-    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c",
+    "esmodule": "node toES6Module.js",
+    "build": "npm test && node_modules/umd/bin/cli.js cookiejs src/cookiejs.js cookiejs.js -c && npm run esmodule",
     "precommit": "pretty-quick --staged"
   },
   "nyc": {
@@ -23,13 +25,16 @@
     "cookies",
     "client",
     "browser",
-    "umd"
+    "umd",
+    "module",
+    "es6"
   ],
   "contributors": [
     "Daniel Opitz <contact@copynpaste.de> (https://copynpaste.de/)"
   ],
   "files": [
-    "cookiejs.js"
+    "cookiejs.js",
+    "cookiejs.es.js"
   ],
   "author": "thezieger",
   "license": "MIT",
@@ -40,11 +45,8 @@
   "devDependencies": {
     "jasmine": "^3.2.0",
     "umd": "^3.0.3",
-    "husky": "^1.0.0-rc.15",
-    "prettier": "^1.14.2",
-    "pretty-quick": "^1.6.0"
-  },
-  "dependencies": {
-    "nyc": "^13.0.1"
+    "husky": "^1.0.0",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.7.0"
   }
 }
