@@ -16,19 +16,43 @@ var throwTypeError = function(sName, sType) {
   throw new TypeError(sName + ' is not of type ' + sType);
 };
 
-var isString = function(variableToTest, name, hasvalue) {
-  var typeIsString = typeof variableToTest !== 'string';
+/**
+ * check variable (specifically sCookieName) for a non-falsy value and it's type to be string
+ *
+ * @param {String} sCookieName
+ *
+ * @throws {TypeError}
+ */
+var checkCookieName = function(sCookieName) {
+  isString(sCookieName, 'sCookieName');
+  if (!sCookieName) {
+    throwTypeError('sCookieName', 'string');
+  }
+};
 
-  if (
-    (hasvalue && !variableToTest && typeIsString) ||
-    (!hasvalue && typeof typeIsString)
-  ) {
+/**
+ * check variable type to be a string
+ *
+ * @param {String} variableToTest
+ * @param {String} name
+ *
+ * @throws {TypeError}
+ */
+var isString = function(variableToTest, name) {
+  if (typeof variableToTest !== 'string') {
     throwTypeError(name, 'string');
   }
 };
 
-var isObject = function(obj) {
-  return typeof obj === 'object' && !Array.isArray(obj);
+/**
+ * check variable type to be an object
+ *
+ * @param {String} variableToTest
+ *
+ * @returns {bool}
+ */
+var isObject = function(variableToTest) {
+  return typeof variableToTest === 'object' && !Array.isArray(variableToTest);
 };
 
 var cookiejs = {
@@ -48,7 +72,8 @@ var cookiejs = {
 
     sValue = sValue || '';
 
-    isString(sCookieName, 'sCookieName', true);
+    checkCookieName(sCookieName);
+
     isString(sValue, 'sValue');
 
     if (oAttributes === undefined) {
@@ -93,7 +118,7 @@ var cookiejs = {
   get: function(sCookieName) {
     var gCookieValue = false;
 
-    isString(sCookieName, 'sCookieName', true);
+    checkCookieName(sCookieName);
 
     cookiejs.global.cookie.split('; ').some(function(sCookie) {
       var aCookie = sCookie.split('=');
