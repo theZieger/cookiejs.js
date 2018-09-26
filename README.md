@@ -2,6 +2,17 @@
 
 > Set, get and remove cookies.
 
+## UMD and ES6 modules
+
+We ship cookiejs.js primarly as a UMD module but there is also an ES6 module included.
+
+### using the ES6 module
+
+```javascript
+import cookiejs from 'cookiejs.js'; //should import cookiejs.es.js
+cookiejs.set('testcookie', 'testvalue');
+```
+
 ## Getting started
 
 There is more than one way to use cookiejs.js inside your project. I prefer using npm for dependency management.

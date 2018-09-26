@@ -56,7 +56,7 @@ var isObject = function(variableToTest) {
 };
 
 var cookiejs = {
-  global: this.document ? this.document : { cookie: '' },
+  global: typeof window !== 'undefined' ? document : { cookie: '' },
 
   /**
    * sets or overwrites a cookie
