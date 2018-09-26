@@ -1,5 +1,5 @@
 /*!
- * cookiejs.js | v1.0.0 | cookiejs object for setting/getting/removing cookies
+ * cookiejs.js | v1.0.1 | cookiejs object for setting/getting/removing cookies
  * Copyright (c) 2017 Eric Zieger (MIT license)
  * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
  */
@@ -16,8 +16,47 @@ var throwTypeError = function(sName, sType) {
   throw new TypeError(sName + ' is not of type ' + sType);
 };
 
+/**
+ * check variable (specifically sCookieName) for a non-falsy value and it's type to be string
+ *
+ * @param {String} sCookieName
+ *
+ * @throws {TypeError}
+ */
+var checkCookieName = function(sCookieName) {
+  isString(sCookieName, 'sCookieName');
+  if (!sCookieName) {
+    throwTypeError('sCookieName', 'string');
+  }
+};
+
+/**
+ * check variable type to be a string
+ *
+ * @param {String} variableToTest
+ * @param {String} name
+ *
+ * @throws {TypeError}
+ */
+var isString = function(variableToTest, name) {
+  if (typeof variableToTest !== 'string') {
+    throwTypeError(name, 'string');
+  }
+};
+
+/**
+ * check variable type to be an object
+ *
+ * @param {String} variableToTest
+ *
+ * @returns {bool}
+ */
+var isObject = function(variableToTest) {
+  return typeof variableToTest === 'object' && !Array.isArray(variableToTest);
+};
+
 var cookiejs = {
-  global: this.document ? this.document : { cookie: '' },
+  global: typeof window !== 'undefined' ? document : { cookie: '' },
 
   /**
    * sets or overwrites a cookie
@@ -33,34 +72,30 @@ var cookiejs = {
 
     sValue = sValue || '';
 
-    if (!sCookieName || typeof sCookieName !== 'string') {
-      throwTypeError('sCookieName', 'string');
-    }
+    checkCookieName(sCookieName);
 
-    if (typeof sValue !== 'string') {
-      throwTypeError('sValue', 'string');
-    }
+    isString(sValue, 'sValue');
 
     if (oAttributes === undefined) {
       sAttributes += '; path=/';
     } else {
-      if (typeof oAttributes !== 'object' || Array.isArray(oAttributes)) {
+      if (!isObject(oAttributes)) {
         throwTypeError('oAttributes', 'object');
       }
 
       Object.keys(oAttributes).forEach(function(sAttr) {
+        var cookiePropValue = oAttributes[sAttr];
+
         if (sAttr === 'secure') {
-          if (oAttributes[sAttr] === true || oAttributes[sAttr] === 'true') {
-            sAttributes += ';' + sAttr;
-            return;
-          } else {
+          if (cookiePropValue !== true && cookiePropValue !== 'true') {
             throwTypeError(sAttr, 'boolean');
           }
-        } else if (typeof oAttributes[sAttr] !== 'string') {
-          throwTypeError(sAttr, 'string');
-        }
 
-        sAttributes += ';' + sAttr + '=' + oAttributes[sAttr];
+          sAttributes += ';' + sAttr;
+        } else {
+          isString(cookiePropValue, sAttr);
+          sAttributes += ';' + sAttr + '=' + cookiePropValue;
+        }
       });
     }
 
@@ -83,9 +118,7 @@ var cookiejs = {
   get: function(sCookieName) {
     var gCookieValue = false;
 
-    if (!sCookieName || typeof sCookieName !== 'string') {
-      throwTypeError('sCookieName', 'string');
-    }
+    checkCookieName(sCookieName);
 
     cookiejs.global.cookie.split('; ').some(function(sCookie) {
       var aCookie = sCookie.split('=');
@@ -115,10 +148,7 @@ var cookiejs = {
   remove: function(sCookieName, oAttributes) {
     var oRemoveAttributes = oAttributes || {};
 
-    if (
-      typeof oRemoveAttributes === 'object' &&
-      !Array.isArray(oRemoveAttributes)
-    ) {
+    if (isObject(oRemoveAttributes)) {
       oRemoveAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
     }
 
