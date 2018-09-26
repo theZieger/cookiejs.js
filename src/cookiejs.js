@@ -16,6 +16,21 @@ var throwTypeError = function(sName, sType) {
   throw new TypeError(sName + ' is not of type ' + sType);
 };
 
+var isString = function(variableToTest, name, hasvalue) {
+  var typeIsString = typeof variableToTest !== 'string';
+
+  if (
+    (hasvalue && !variableToTest && typeIsString) ||
+    (!hasvalue && typeof typeIsString)
+  ) {
+    throwTypeError(name, 'string');
+  }
+};
+
+var isObject = function(obj) {
+  return typeof obj === 'object' && !Array.isArray(obj);
+};
+
 var cookiejs = {
   global: this.document ? this.document : { cookie: '' },
 
@@ -33,18 +48,13 @@ var cookiejs = {
 
     sValue = sValue || '';
 
-    if (!sCookieName || typeof sCookieName !== 'string') {
-      throwTypeError('sCookieName', 'string');
-    }
-
-    if (typeof sValue !== 'string') {
-      throwTypeError('sValue', 'string');
-    }
+    isString(sCookieName, 'sCookieName', true);
+    isString(sValue, 'sValue');
 
     if (oAttributes === undefined) {
       sAttributes += '; path=/';
     } else {
-      if (typeof oAttributes !== 'object' || Array.isArray(oAttributes)) {
+      if (!isObject(oAttributes)) {
         throwTypeError('oAttributes', 'object');
       }
 
@@ -58,9 +68,7 @@ var cookiejs = {
 
           sAttributes += ';' + sAttr;
         } else {
-          if (typeof cookiePropValue !== 'string') {
-            throwTypeError(sAttr, 'boolean');
-          }
+          isString(cookiePropValue, sAttr);
           sAttributes += ';' + sAttr + '=' + cookiePropValue;
         }
       });
@@ -85,9 +93,7 @@ var cookiejs = {
   get: function(sCookieName) {
     var gCookieValue = false;
 
-    if (!sCookieName || typeof sCookieName !== 'string') {
-      throwTypeError('sCookieName', 'string');
-    }
+    isString(sCookieName, 'sCookieName', true);
 
     cookiejs.global.cookie.split('; ').some(function(sCookie) {
       var aCookie = sCookie.split('=');
@@ -117,10 +123,7 @@ var cookiejs = {
   remove: function(sCookieName, oAttributes) {
     var oRemoveAttributes = oAttributes || {};
 
-    if (
-      typeof oRemoveAttributes === 'object' &&
-      !Array.isArray(oRemoveAttributes)
-    ) {
+    if (isObject(oRemoveAttributes)) {
       oRemoveAttributes.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
     }
 
