@@ -15,6 +15,7 @@ build:
 
 filter:
   excluded_paths:
+    - 'spec/'
     - 'cookiejs.es.js'
     - 'cookiejs.js'
     - 'toES6Module.js'

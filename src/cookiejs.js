@@ -49,18 +49,20 @@ var cookiejs = {
       }
 
       Object.keys(oAttributes).forEach(function(sAttr) {
+        var cookiePropValue = oAttributes[sAttr];
+
         if (sAttr === 'secure') {
-          if (oAttributes[sAttr] === true || oAttributes[sAttr] === 'true') {
-            sAttributes += ';' + sAttr;
-            return;
-          } else {
+          if (cookiePropValue !== true && cookiePropValue !== 'true') {
             throwTypeError(sAttr, 'boolean');
           }
-        } else if (typeof oAttributes[sAttr] !== 'string') {
-          throwTypeError(sAttr, 'string');
-        }
 
-        sAttributes += ';' + sAttr + '=' + oAttributes[sAttr];
+          sAttributes += ';' + sAttr;
+        } else {
+          if (typeof cookiePropValue !== 'string') {
+            throwTypeError(sAttr, 'boolean');
+          }
+          sAttributes += ';' + sAttr + '=' + cookiePropValue;
+        }
       });
     }
 
