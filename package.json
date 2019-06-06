@@ -1,6 +1,6 @@
 {
   "name": "cookiejs.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Set, get and remove cookies.",
   "main": "cookiejs.js",
   "module": "cookiejs.es.js",
@@ -43,10 +43,10 @@
   },
   "homepage": "https://github.com/theZieger/cookiejs.js#readme",
   "devDependencies": {
-    "jasmine": "^3.2.0",
+    "jasmine": "^3.4.0",
     "umd": "^3.0.3",
-    "husky": "^1.0.0",
-    "prettier": "^1.14.3",
-    "pretty-quick": "^1.7.0"
+    "husky": "^2.4.0",
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.11.0"
   }
 }

@@ -20,10 +20,10 @@
   var define, module, exports;
   module = { exports: (exports = {}) };
   /*!
- * cookiejs.js | v1.0.1 | cookiejs object for setting/getting/removing cookies
- * Copyright (c) 2017 Eric Zieger (MIT license)
- * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
- */
+   * cookiejs.js | v1.0.1 | cookiejs object for setting/getting/removing cookies
+   * Copyright (c) 2017 Eric Zieger (MIT license)
+   * https://github.com/theZieger/cookiejs.js/blob/master/LICENSE
+   */
 
   /**
    * throwTypeError
